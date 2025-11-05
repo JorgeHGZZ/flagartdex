@@ -1,0 +1,173 @@
+<html>
+
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <script src="https://aframe.io/releases/1.5.0/aframe.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/gh/donmccurdy/aframe-extras@v7.0.0/dist/aframe-extras.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/mind-ar@1.2.5/dist/mindar-image-aframe.prod.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap"
+        rel="stylesheet">
+    <title>FlagARt - Escaner</title>
+    <style>
+        body,
+        html {
+            margin: 0;
+            padding: 0;
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+            font-family: "Poppins", sans-serif;
+            background-size: contain;
+            background-position: center;
+        }
+
+        .menu {
+            display: flex;
+            justify-content: space-around;
+
+            padding: 10px 0px;
+            border-radius: 15px;
+        }
+
+        .menu .btn {
+            background: #2c5780fb;
+            color: white;
+            padding: 10px 45px;
+            border-radius: 8px;
+            font-size: 28px;
+            border: none;
+            cursor: pointer;
+        }
+
+        .menu .btn:hover {
+            background: #244869fb;
+        }
+
+        .flagsContainer {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            margin-top: 20px;
+            gap: 10px;
+            padding: 15px 0px;
+            border-radius: 15px;
+            color: #D1D4D1;
+            
+        }
+
+        .flag-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            width: 90px;
+            margin-top: 0px;
+        }
+
+        .flag-item img {
+            width: 100%;
+            height: 100%;
+            border: 2px solid #ccc;
+            border-radius: 8px;
+        }
+
+        .flag-item p {
+            margin-top: 5px;
+            font-size: 14px;
+            text-align: center;
+            margin-bottom: 5px;
+        }
+
+        h2 {
+            text-align: center;
+            margin-bottom: 20px;
+            margin-top: 12px;
+            margin-bottom: 3px;
+            background-color: #2a398de1;
+            color: #D1D4D1;
+        }
+
+        .disabled {
+            filter: grayscale(100%);
+        }
+    </style>
+</head>
+
+<body>
+    <div class="coleccion">
+        <h2>Coleccion</h2>
+        <div class="flagsContainer">
+            <!-- Las banderas escaneadas se agregarÃ¡n aquÃ­ dinÃ¡micamente -->
+            <div class="flag-item enabled" id="flag-japan">
+                <img src="/assets/images/japan.webp" alt="Bandera de JapÃ³n" />
+                <p>Japon</p>
+            </div>
+            <div class="flag-item enabled" id="flag-mexico">
+                <img src="/assets/images/mexico.jpg" alt="Bandera de MÃ©xico" />
+                <p>Mexico</p>
+            </div>
+            <div class="flag-item enabled" id="flag-eua">
+                <img src="/assets/images/eua.jpg" alt="Bandera de EUA" />
+                <p>EUA</p>
+            </div>
+            <div class="flag-item enabled" id="flag-canada">
+                <img src="/assets/images/canada.avif" alt="Bandera de Canada" />
+                <p>Canada</p>
+            </div>
+            <div class="flag-item enabled" id="flag-iran">
+                <img src="/assets/images/iran.webp" alt="Bandera de Iran" />
+                <p>Iran</p>
+            </div>
+            <div class="flag-item enabled" id="flag-surcorea">
+                <img src="/assets/images/corea.avif" alt="Bandera de MÃ©xico" />
+                <p>Sur Corea</p>
+            </div>
+            <div class="flag-item enabled" id="flag-australia">
+                <img src="/assets/images/australia.jpg" alt="Bandera de MÃ©xico" />
+                <p>Australia</p>
+            </div>
+            <div class="flag-item enabled" id="flag-usbekistan">
+                <img src="/assets/images/uzbekistan.jpg" alt="Bandera de MÃ©xico" />
+                <p>Uzbekistan</p>
+            </div>
+            <div class="flag-item enabled" id="flag-jordania">
+                <img src="/assets/images/jordania.avif" alt="Bandera de MÃ©xico" />
+                <p>Jordania</p>
+            </div>
+            <div class="flag-item enabled" id="flag-argentina">
+                <img src="/assets/images/argentina.jpg" alt="Bandera de MÃ©xico" />
+                <p>Argentina</p>
+            </div>
+            <div class="flag-item enabled" id="flag-Brasil">
+                <img src="/assets/images/brasil.webp" alt="Bandera de MÃ©xico" />
+                <p>Brazil</p>
+            </div>
+            <div class="flag-item enabled" id="flag-ecuador">
+                <img src="/assets/images/ecuador.jpg" alt="Bandera de MÃ©xico" />
+                <p>Ecuador</p>
+            </div>
+            <div class="flag-item enabled" id="flag-nuevaZelanda">
+                <img src="/assets/images/nuevaZelanda.jpg" alt="Bandera de MÃ©xico" />
+                <p>Zelanda</p>
+            </div>
+        </div>
+        <p></p>
+        <div class="menu">
+            <button class="btn" id="homeBtn">
+                <i class="fa-solid fa-house"></i>
+            </button>
+            <button class="btn" id="scannerButton">
+                <i class="fa-solid fa-expand"></i>
+            </button>
+            <button class="btn" id="helpButton">
+                <i class="fa-solid fa-question"></i>
+            </button>
+        </div>
+    </div>
+    <script type="module" src="/src/banderas.js"></script>
+</body>
+
+</html>

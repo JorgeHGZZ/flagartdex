@@ -1,0 +1,142 @@
+<html>
+
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <script src="https://aframe.io/releases/1.5.0/aframe.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/gh/donmccurdy/aframe-extras@v7.0.0/dist/aframe-extras.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/mind-ar@1.2.5/dist/mindar-image-aframe.prod.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+    <style>
+        body,
+        html {
+            margin: 0;
+            padding: 0;
+            overflow: hidden;
+        }
+
+        /* Modal */
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.7);
+            display: none;
+            justify-content: center;
+            align-items: center;
+            z-index: 10000;
+        }
+
+        .modal-overlay.hidden {
+            display: none;
+        }
+
+        .modal-overlay.visible {
+            display: flex;
+        }
+
+
+        .modal {
+            background: white;
+            padding: 20px;
+            border-radius: 15px;
+            text-align: center;
+            width: 80%;
+            max-width: 350px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+        }
+
+        .modal h2 {
+            margin-top: 0;
+            font-size: 1.5rem;
+        }
+
+        .modal p {
+            font-size: 1rem;
+            margin: 10px 0 20px;
+        }
+
+        .btn {
+            background: #007BFF;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 1rem;
+        }
+
+        /* Contenedor de botones por encima de la escena */
+        .ui-container {
+            position: fixed;
+            top: 90%;
+            left: 0;
+            width: 100%;
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            z-index: 9999;
+            /* MUY importante: asegura que quede arriba del canvas */
+        }
+
+        .ui-container .btn {
+            background: #2c5780fb;
+            color: white;
+            padding: 10px 45px;
+            border-radius: 8px;
+            font-size: 28px;
+            border: none;
+            cursor: pointer;
+        }
+    </style>
+</head>
+
+<body>
+    <!-- Modal de explicación -->
+    <div class="modal-overlay" id="tutorialModal">
+        <div class="modal">
+            <h2>🔍 Usa el escáner</h2>
+            <p>Apunta la cámara hacia los pósters de países para desbloquear su información y contenido exclusivo en
+                realidad aumentada.</p>
+            <button class="btn" onclick="cerrarModal()">¡Entendido!</button>
+        </div>
+    </div>
+
+    <!-- Botones de menu -->
+    <div class="ui-container">
+        <button class="btn" id="homeBtn">
+            <i class="fa-solid fa-house"></i>
+        </button>
+        <button class="btn" id="collectionButton">
+            <i class="fa-solid fa-grip"></i>
+        </button>
+        <button class="btn" id="helpButton">
+            <i class="fa-solid fa-question"></i>
+        </button>
+    </div>
+
+    <!-- Escena MindAr -->
+    <a-scene mindar-image="imageTargetSrc: /assets/targets/targets.mind; uiScanning: yes; uiLoading: yes;" embedded
+        color-space="sRGB" renderer="colorManagement: true, physicallyCorrectLights" vr-mode-ui="enabled: false"
+        device-orientation-permission-ui="enabled: false">
+
+        <!-- Assets -->
+        <a-assets>
+            <a-asset-item id="mexic" src="./assets/models/aguila.glb"></a-asset-item>
+        </a-assets>
+
+        <!-- Camara -->
+        <a-camera position="0 0 0" look-controls="enabled: false"></a-camera>
+
+
+        <!-- Target Mexico -->
+        <a-entity mindar-image-target="targetIndex: 1">
+            <a-gltf-model rotation="0 0 0 " position="0 0.1 0" scale="1 1 1" src="#mexic"></a-gltf-model>
+            <a-text value="Viva mexico kbrones" position="0 -0.6 0" color="yellow" width="2"></a-text>
+        </a-entity>
+    </a-scene>
+    <script type="module" src="scanner.js"></script>
+</body>
+
+</html>
