@@ -359,7 +359,7 @@ function showTrivia() {
             scene.remove(mesh);
             mesh.geometry.dispose();
             mesh.material.dispose();
-        });
+        })
         currentTrivia = [];
 
         const loader = new FontLoader();

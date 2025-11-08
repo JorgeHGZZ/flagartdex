@@ -265,7 +265,7 @@ function showStats() {
 
     loader.load('/fonts/helvetiker_regular.typeface.json', function (font) {
         const textGeo = new TextGeometry
-            ("Primer Mundial:\n 1930 \n\nN. Participaciones:\n 18 \n\n              Uno de los mas exitosos; \n        frecuentes finales y semifinales.", {
+            ("               Primer Mundial:\n                    2002 \n\n          N. Participaciones:\n 4 (2002, 2006, 2014, 2022) \n\n  Jugadores destacados: \n        -Enner Valencia \n        -Antonio Valencia \n        -Alex Aguinaga", {
                 font: font,
                 size: 0.03,
                 height: 0,
@@ -275,14 +275,14 @@ function showStats() {
             textGeo,
             new THREE.MeshBasicMaterial({ color: 0x00000 })
         );
-        statsText.position.set(-0.25, 0.25, -1);
+        statsText.position.set(-0.5, 0.25, -1);
         scene.add(statsText);
 
         currentStats.push(statsText); // ✅ referencia guardada dentro del callback
     });
 
     loader.load('/fonts/helvetiker_regular.typeface.json', function (font) {
-        const textGeo2 = new TextGeometry("    Mejor Puesto:\n3 veces campeon", {
+        const textGeo2 = new TextGeometry("       Mejor Puesto:\nOctavos de final (2006)", {
             font: font,
             size: 0.03,
             height: 0,
@@ -309,33 +309,33 @@ function showStats() {
             textGeo3,
             new THREE.MeshBasicMaterial({ color: 0xff0f0 })
         );
-        statsText3.position.set(-0.04, -0.45, -1);
+        statsText3.position.set(0.24, -0.28, -1);
         scene.add(statsText3);
 
         currentStats.push(statsText3); // ✅ también guardado aquí
     });
 
-    const Uniforme = crearBoton3d('Model', 0xffffff, 0, 0, 'Uniforme_argentina.webp');
-    Uniforme.position.set(0.025, -0.05, -0.2);
-    Uniforme.scale.set(0.5, 0.5, 0.4);
+    const Uniforme = crearBoton3d('Uniforme', 0xffffff, 0, 0, 'Uniforme_ecuador.webp');
+    Uniforme.position.set(0.08, -0.02, -0.2);
+    Uniforme.scale.set(0.8, 0.5, 0.4);
     currentStats.push(Uniforme); // ✅ guardar referencia
 
 }
 
 const triviaQuestions = [
     {
-        question: "En que ano gano Argentina su primera Copa Mundial?",
-        options: ["1978", "1986", "1930", "1982"],
-        correct: 0
+        question: "En que anio participo Ecuador por primera vez en un Mundial?",
+        options: ["1998", "2002", "2006", "2014"],
+        correct: 1
     },
     {
-        question: "Quien es el maximo goleador histórico de Argentina?",
-        options: ["Diego Maradona", "Gabriel Batistuta", "Lionel Messi", "Sergio Agüero"],
+        question: "Que color predomina en la franja superior de la bandera de Ecuador?",
+        options: ["Rojo", "Azul", "Amarillo", "Verde"],
         correct: 2
     },
     {
-        question: "Contra qué equipo ganó Argentina la final del Mundial 2022?",
-        options: ["Brasil", "Alemania", "Francia", "Croacia"],
+        question: "Cual de estos jugadores es conocido por ser goleador historico de Ecuador?",
+        options: ["Alex Aguinaga", "Ivan Hurtado", "Enner Valencia", "Antonio Valencia"],
         correct: 2
     }
 ];
@@ -467,7 +467,7 @@ function showVideo() {
     clearSceneSections(); // limpiar antes
 
     const video = document.createElement('video');
-    video.src = '/assets/videos/Argentina.mp4';
+    video.src = '/assets/videos/Ecuador.mp4';
     video.loop = true;
     video.muted = false;
     video.playsInline = true;
@@ -482,10 +482,10 @@ function showVideo() {
     const baseMaterial = createVideoShaderMaterial(texture, 'none');
 
     const videoScreen = new THREE.Mesh(
-        new THREE.PlaneGeometry(0.9, 0.9),
+        new THREE.PlaneGeometry(0.9, 1.2),
         baseMaterial
     );
-    videoScreen.position.set(0, 0, -1.5);
+    videoScreen.position.set(0, -0.1, -1.5);
     scene.add(videoScreen);
     currentVideo = videoScreen;
     currentVideoElement = video;

@@ -13,7 +13,7 @@ container.addEventListener('click', (e) => {
         case 'flag-japan':
             window.location.href = '/src/Japon.html';
             break;
-        case 'flag-jordan':
+        case 'flag-jordania':
             window.location.href = '/src/jordania.html';
             break;
         case 'flag-argentina':
@@ -28,7 +28,7 @@ container.addEventListener('click', (e) => {
         case 'flag-nuevaZelanda':
             window.location.href = '/src/zelanda.html';
             break;
-        case 'flag-corea':
+        case 'flag-surcorea':
             window.location.href = '/src/surcorea.html';
             break;
         case 'flag-eua':
@@ -37,7 +37,7 @@ container.addEventListener('click', (e) => {
         case 'flag-canada':
             window.location.href = '/src/canada.html';
             break;
-        case 'flaf-iran':
+        case 'flag-iran':
             window.location.href = '/src/iran.html';
             break;
         case 'flag-australia':
