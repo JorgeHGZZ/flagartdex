@@ -172,28 +172,35 @@ function createVideoShaderMaterial(texture, type = 'none') {
 }
 
 function clearSceneSections() {
+    // Eliminar stats
     currentStats.forEach(mesh => {
         scene.remove(mesh);
-        if (mesh.geometry) mesh.geometry.dispose();
-        if (mesh.material) mesh.material.dispose();
+        mesh.geometry.dispose();
+        mesh.material.dispose();
     });
     currentStats = [];
 
+    // Eliminar trivia
     currentTrivia.forEach(mesh => {
         scene.remove(mesh);
-        if (mesh.geometry) mesh.geometry.dispose();
-        if (mesh.material) mesh.material.dispose();
+        mesh.geometry.dispose();
+        mesh.material.dispose();
     });
     currentTrivia = [];
 
+    // Eliminar video
     if (currentVideo) {
         scene.remove(currentVideo);
+        // geometría
         if (currentVideo.geometry) currentVideo.geometry.dispose();
+
+        // material: puede ser ShaderMaterial (usa uniform tex) o tener map
         const mat = currentVideo.material;
         try {
             if (mat) {
-                if (mat.map) mat.map.dispose();
-                else if (mat.uniforms && mat.uniforms.tex && mat.uniforms.tex.value && typeof mat.uniforms.tex.value.dispose === 'function') {
+                if (mat.map) {
+                    mat.map.dispose();
+                } else if (mat.uniforms && mat.uniforms.tex && mat.uniforms.tex.value && typeof mat.uniforms.tex.value.dispose === 'function') {
                     mat.uniforms.tex.value.dispose();
                 }
                 mat.dispose();
@@ -201,18 +208,22 @@ function clearSceneSections() {
         } catch (e) {
             console.warn('Error al liberar material de currentVideo:', e);
         }
+
         currentVideo = null;
     }
 
+    // Detener audio del video
     if (currentVideoElement) {
         currentVideoElement.pause();
         currentVideoElement.currentTime = 0;
         currentVideoElement = null;
     }
 
+    // 🔹 Eliminar botones de control del video (pausa, play, filtros)
     currentVideoControls.forEach(btn => {
         scene.remove(btn);
         if (btn.geometry) btn.geometry.dispose();
+        // proteger por si no hay textura
         try {
             if (btn.material && btn.material.map) btn.material.map.dispose();
             if (btn.material) btn.material.dispose();
@@ -222,9 +233,25 @@ function clearSceneSections() {
     });
     currentVideoControls = [];
 
+    // Eliminar modelo
     if (currentModel) {
         scene.remove(currentModel);
+        // Limpiar todas las geometrías y materiales del modelo
+        currentModel.traverse((child) => {
+            if (child.geometry) child.geometry.dispose();
+            if (child.material) {
+                if (Array.isArray(child.material)) {
+                    child.material.forEach(mat => mat.dispose());
+                } else {
+                    child.material.dispose();
+                }
+            }
+        });
         currentModel = null;
+    }
+    if (mixer) {
+        mixer.stopAllAction();
+        mixer = null;
     }
 }
 
@@ -292,21 +319,21 @@ function showStats() {
 }
 
 const triviaQuestions = [
-        {
-            question: "Ha participado Uzbekistan alguna vez en un Mundial?",
-            options: ["Si", "No", "Solo en 1994", "Solo en juveniles"],
-            correct: 1
-        },
-        {
-            question: "Quien es el maximo goleador historico de Uzbekistan?",
-            options: ["Maksim Shatskikh", "Server Djeparov", "Eldor Shomurodov", "Odil Ahmedov"],
-            correct: 0
-        },
-        {
-            question: "En que confederacion juega Uzbekistan?",
-            options: ["UEFA", "AFC", "CAF", "CONCACAF"],
-            correct: 1
-        }
+    {
+        question: "Ha participado Uzbekistan alguna vez en un Mundial?",
+        options: ["Si", "No", "Solo en 1994", "Solo en juveniles"],
+        correct: 1
+    },
+    {
+        question: "Quien es el maximo goleador historico de Uzbekistan?",
+        options: ["Maksim Shatskikh", "Server Djeparov", "Eldor Shomurodov", "Odil Ahmedov"],
+        correct: 0
+    },
+    {
+        question: "En que confederacion juega Uzbekistan?",
+        options: ["UEFA", "AFC", "CAF", "CONCACAF"],
+        correct: 1
+    }
 ];
 
 const buttonColors = [
@@ -475,6 +502,10 @@ function showModel() {
 
     const loader = new GLTFLoader();
     loader.load('/assets/models/uz.glb', (gltf) => {
+        if (mixer) {
+            mixer.stopAllAction();
+            mixer = null;
+        }
         currentModel = gltf.scene;
         currentModel.position.set(-0.3, 0, -2);
         currentModel.rotation.y = -1;
@@ -484,14 +515,14 @@ function showModel() {
         scene.add(currentModel);
 
         mixer = new THREE.AnimationMixer(currentModel);
-        if(gltf.animations && gltf.animations.length > 0){
+        if (gltf.animations && gltf.animations.length > 0) {
             mixer.clipAction(gltf.animations[0]).play();
             mixer.timeScale = 2;
         }
     });
 }
 
-showModel();
+showStats();
 
 const camDir = new THREE.Vector3();
 const camRight = new THREE.Vector3();

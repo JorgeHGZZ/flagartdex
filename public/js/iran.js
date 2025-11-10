@@ -253,8 +253,22 @@ function clearSceneSections() {
     // Eliminar modelo
     if (currentModel) {
         scene.remove(currentModel);
-        // si quieres liberar geometrías/texturas del GLTF, haz un traverse aquí
+        // Limpiar todas las geometrías y materiales del modelo
+        currentModel.traverse((child) => {
+            if (child.geometry) child.geometry.dispose();
+            if (child.material) {
+                if (Array.isArray(child.material)) {
+                    child.material.forEach(mat => mat.dispose());
+                } else {
+                    child.material.dispose();
+                }
+            }
+        });
         currentModel = null;
+    }
+    if (mixer) {
+        mixer.stopAllAction();
+        mixer = null;
     }
 }
 
@@ -323,21 +337,21 @@ function showStats() {
 }
 
 const triviaQuestions = [
-        {
-            question: "En que anio clasifico Iran por primera vez a un Mundial?",
-            options: ["1978", "1986", "1998", "2002"],
-            correct: 0
-        },
-        {
-            question: "Quien fue el goleador internacional historico de Iran (y exrecord mundial)?",
-            options: ["Ali Daei", "Sardar Azmoun", "Mehdi Mahdavikia", "Ali Karimi"],
-            correct: 0
-        },
-        {
-            question: "En que confederacion juega Iran?",
-            options: ["AFC", "CONMEBOL", "UEFA", "CONCACAF"],
-            correct: 0
-        }
+    {
+        question: "En que anio clasifico Iran por primera vez a un Mundial?",
+        options: ["1978", "1986", "1998", "2002"],
+        correct: 0
+    },
+    {
+        question: "Quien fue el goleador internacional historico de Iran (y exrecord mundial)?",
+        options: ["Ali Daei", "Sardar Azmoun", "Mehdi Mahdavikia", "Ali Karimi"],
+        correct: 0
+    },
+    {
+        question: "En que confederacion juega Iran?",
+        options: ["AFC", "CONMEBOL", "UEFA", "CONCACAF"],
+        correct: 0
+    }
 ];
 
 const buttonColors = [
@@ -516,6 +530,10 @@ function showModel() {
 
     const loader = new GLTFLoader();
     loader.load('/assets/models/iran.glb', (gltf) => {
+        if (mixer) {
+            mixer.stopAllAction();
+            mixer = null;
+        }
         currentModel = gltf.scene; // ✅ guardar referencia aquí
         currentModel.position.set(0, -0.0, -2);
         currentModel.scale.set(0.5, 0.5, 0.5);

@@ -253,8 +253,22 @@ function clearSceneSections() {
     // Eliminar modelo
     if (currentModel) {
         scene.remove(currentModel);
-        // si quieres liberar geometrías/texturas del GLTF, haz un traverse aquí
+        // Limpiar todas las geometrías y materiales del modelo
+        currentModel.traverse((child) => {
+            if (child.geometry) child.geometry.dispose();
+            if (child.material) {
+                if (Array.isArray(child.material)) {
+                    child.material.forEach(mat => mat.dispose());
+                } else {
+                    child.material.dispose();
+                }
+            }
+        });
         currentModel = null;
+    }
+    if (mixer) {
+        mixer.stopAllAction();
+        mixer = null;
     }
 }
 
@@ -516,6 +530,11 @@ function showModel() {
 
     const loader = new GLTFLoader();
     loader.load('/assets/models/cristo_redentor.glb', (gltf) => {
+        if (mixer) {
+            mixer.stopAllAction();
+            mixer = null;
+        }
+
         currentModel = gltf.scene; // ✅ guardar referencia aquí
         currentModel.position.set(0, -0.5, -2);
         currentModel.scale.set(0.5, 0.5, 0.5);
