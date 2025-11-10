@@ -1,5 +1,47 @@
 const container = document.querySelector('.flagsContainer');
 
+// Función para obtener países desbloqueados del localStorage
+function getPaisesDesbloqueados() {
+    return JSON.parse(localStorage.getItem("paisesEscaneados") || "[]");
+}
+
+// Mapeo de IDs a nombres de países como están en localStorage
+const idToPais = {
+    'flag-mexico': 'mexico',
+    'flag-japan': 'japon',
+    'flag-jordania': 'jordania',
+    'flag-argentina': 'argentina',
+    'flag-Brasil': 'brasil',
+    'flag-ecuador': 'ecuador',
+    'flag-nuevaZelanda': 'nuevazelanda',
+    'flag-surcorea': 'corea',
+    'flag-eua': 'eua',
+    'flag-canada': 'canada',
+    'flag-iran': 'iran',
+    'flag-australia': 'australia',
+    'flag-uzbekistan': 'uzbekistan'
+};
+
+// Actualizar estado de banderas al cargar la página
+function actualizarEstadoBanderas() {
+    const paisesDesbloqueados = getPaisesDesbloqueados();
+    const banderas = document.querySelectorAll('.flag-item');
+
+    banderas.forEach(bandera => {
+        const paisId = idToPais[bandera.id];
+        if (paisesDesbloqueados.includes(paisId)) {
+            bandera.classList.remove('disabled');
+            bandera.classList.add('enabled');
+        } else {
+            bandera.classList.remove('enabled');
+            bandera.classList.add('disabled');
+        }
+    });
+}
+
+// Ejecutar al cargar la página
+document.addEventListener('DOMContentLoaded', actualizarEstadoBanderas);
+
 container.addEventListener('click', (e) => {
     const flag = e.target.closest('.flag-item'); // busca el .flag-item más cercano al clic
     if (!flag) return;

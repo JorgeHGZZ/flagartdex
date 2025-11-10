@@ -229,12 +229,12 @@ function clearSceneSections() {
 }
 
 function showStats() {
-    clearSceneSections();
+    clearSceneSections(); // limpiar antes de crear
     const loader = new FontLoader();
 
     loader.load('/fonts/helvetiker_regular.typeface.json', function (font) {
-        const textGeo = new TextGeometry(
-            "Primer Mundial:\n1982\n\nN. Participaciones: 2\n\nJugadores destacados:\n- Wynton Rufer\n- Ryan Nelsen\n- Chris Wood", {
+        const textGeo = new TextGeometry
+            ("        Primera vez clasificando \n              Mundial 2026 \n\n          N. Participaciones: 0  \n\n          Jugadores destacados: \n            -Maksim Shatskik \n            -Server Djeparov \n            -Odil Ahmedov", {
                 font: font,
                 size: 0.03,
                 height: 0,
@@ -242,15 +242,16 @@ function showStats() {
             });
         const statsText = new THREE.Mesh(
             textGeo,
-            new THREE.MeshBasicMaterial({ color: 0x000000 })
+            new THREE.MeshBasicMaterial({ color: 0x00000 })
         );
         statsText.position.set(-0.5, 0.25, -1);
         scene.add(statsText);
-        currentStats.push(statsText);
+
+        currentStats.push(statsText); // ✅ referencia guardada dentro del callback
     });
 
     loader.load('/fonts/helvetiker_regular.typeface.json', function (font) {
-        const textGeo2 = new TextGeometry("          Mejor Puesto:\nFase de grupos (1982, 2010)", {
+        const textGeo2 = new TextGeometry("       Mejor Puesto:\n   No aplica (Mundial)\n      Copa Asiatica: \n      4to lugar (2011)", {
             font: font,
             size: 0.03,
             height: 0,
@@ -260,13 +261,14 @@ function showStats() {
             textGeo2,
             new THREE.MeshBasicMaterial({ color: 0xff0f0 })
         );
-        statsText2.position.set(0.08, 0.20, -1);
+        statsText2.position.set(0.17, 0.20, -1);
         scene.add(statsText2);
-        currentStats.push(statsText2);
+
+        currentStats.push(statsText2); // ✅ también guardado aquí
     });
 
     loader.load('/fonts/helvetiker_regular.typeface.json', function (font) {
-        const textGeo3 = new TextGeometry("Uniforme Actual", {
+        const textGeo3 = new TextGeometry("         Uniforme Actual", {
             font: font,
             size: 0.03,
             height: 0,
@@ -278,30 +280,32 @@ function showStats() {
         );
         statsText3.position.set(0.15, -0.35, -1);
         scene.add(statsText3);
-        currentStats.push(statsText3);
+
+        currentStats.push(statsText3); // ✅ también guardado aquí
     });
 
-    const Uniforme = crearBoton3d('Uniforme', 0xffffff, 0, 0, 'zeland.webp');
-    Uniforme.position.set(0.06, -0.03, -0.2);
+    const Uniforme = crearBoton3d('Uniforme', 0xffffff, 0, 0, 'Uniforme_uzbekistan.jpeg');
+    Uniforme.position.set(0.08, -0.03, -0.2);
     Uniforme.scale.set(0.6, 0.6, 0.4);
-    currentStats.push(Uniforme);
+    currentStats.push(Uniforme); // ✅ guardar referencia
+
 }
 
 const triviaQuestions = [
         {
-            question: "En que anio clasifico Nueva Zelanda por primera vez a un Mundial?",
-            options: ["1978", "1982", "1990", "2010"],
+            question: "Ha participado Uzbekistan alguna vez en un Mundial?",
+            options: ["Si", "No", "Solo en 1994", "Solo en juveniles"],
             correct: 1
         },
         {
-            question: "Quien es uno de los jugadores mas reconocidos de Nueva Zelanda?",
-            options: ["Wynton Rufer", "Ryan Nelsen", "Chris Wood", "Winston Reid"],
+            question: "Quien es el maximo goleador historico de Uzbekistan?",
+            options: ["Maksim Shatskikh", "Server Djeparov", "Eldor Shomurodov", "Odil Ahmedov"],
             correct: 0
         },
         {
-            question: "En que confederacion juega Nueva Zelanda?",
-            options: ["OFC", "AFC", "UEFA", "CONCACAF"],
-            correct: 0
+            question: "En que confederacion juega Uzbekistan?",
+            options: ["UEFA", "AFC", "CAF", "CONCACAF"],
+            correct: 1
         }
 ];
 
@@ -425,7 +429,7 @@ function showVideo() {
     clearSceneSections();
 
     const video = document.createElement('video');
-    video.src = '/assets/videos/zeland.mp4';
+    video.src = '/assets/videos/uzbekistan.mp4';
     video.loop = true;
     video.muted = false;
     video.playsInline = true;
@@ -439,7 +443,7 @@ function showVideo() {
     const baseMaterial = createVideoShaderMaterial(texture, 'none');
 
     const videoScreen = new THREE.Mesh(
-        new THREE.PlaneGeometry(1, 1),
+        new THREE.PlaneGeometry(0.8, 1.3),
         baseMaterial
     );
     videoScreen.position.set(0, -0.1, -1.5);
@@ -470,10 +474,13 @@ function showModel() {
     clearSceneSections();
 
     const loader = new GLTFLoader();
-    loader.load('/assets/models/zeland.glb', (gltf) => {
+    loader.load('/assets/models/uz.glb', (gltf) => {
         currentModel = gltf.scene;
-        currentModel.position.set(0, -0.6, -2);
-        currentModel.scale.set(7, 7, 7);
+        currentModel.position.set(-0.3, 0, -2);
+        currentModel.rotation.y = -1;
+        currentModel.rotation.x = 0;
+        currentModel.rotation.z = 47;
+        currentModel.scale.set(0.1, 0.1, 0.1);
         scene.add(currentModel);
 
         mixer = new THREE.AnimationMixer(currentModel);
@@ -482,10 +489,9 @@ function showModel() {
             mixer.timeScale = 2;
         }
     });
-
 }
 
-showStats();
+showModel();
 
 const camDir = new THREE.Vector3();
 const camRight = new THREE.Vector3();

@@ -513,26 +513,22 @@ let mixer;
 
 function showModel() {
     clearSceneSections(); // limpiar antes de crear
-
     const loader = new GLTFLoader();
-    loader.load('/assets/models/Messi.glb', (gltf) => {
-        currentModel = gltf.scene; // ✅ guardar referencia aquí
-        currentModel.position.set(0, -0.8, -2);
-        currentModel.scale.set(0.5, 0.5, 0.5);
+    loader.load('/assets/models/ecuador.glb', (gltf) => {
+        currentModel = gltf.scene;
+        currentModel.position.set(-0.3, 0, -2);
+        currentModel.rotation.y = -1;
+        currentModel.rotation.x = 0;
+        currentModel.rotation.z = 47;
+        currentModel.scale.set(0.1, 0.1, 0.1);
         scene.add(currentModel);
 
-        // Configurar el mixer para las animaciones
         mixer = new THREE.AnimationMixer(currentModel);
-        gltf.animations.forEach((clip) => {
-            mixer.clipAction(clip).play(); // Reproducir la primera animación
-        });
+        if(gltf.animations && gltf.animations.length > 0){
+            mixer.clipAction(gltf.animations[0]).play();
+            mixer.timeScale = 2;
+        }
     });
-
-    // Crear botón para iniciar la animación
-    const playAnimBtn = crearBoton3d('PlayAnimation', 0xffffff, -2.0, -0.5, 'playicon.png');
-    playAnimBtn.position.set(0, 0, -0.5);
-    playAnimBtn.name = 'PlayAnimation'; // Asignar un nombre al botón
-    currentVideoControls.push(playAnimBtn); // Guardar referencia del botón
 }
 
 

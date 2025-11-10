@@ -1,9 +1,11 @@
 <!DOCTYPE html>
 <html lang="es">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <script src="https://aframe.io/releases/1.5.0/aframe.min.js"></script>
+    <link rel="icon" type="image/png" href="/assets/images/icon.png">
     <script src="https://cdn.jsdelivr.net/gh/donmccurdy/aframe-extras@v7.0.0/dist/aframe-extras.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/mind-ar@1.2.5/dist/mindar-image-aframe.prod.js"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
@@ -103,11 +105,11 @@
         <div class="flagsContainer">
             <!-- Las banderas escaneadas se agregarÃ¡n aquÃ­ dinÃ¡micamente -->
             <div class="flag-item enabled" id="flag-japan">
-                <img src="/assets/images/japan.webp" alt="Bandera de JapÃ³n" />
+                <img src="/assets/images/japan.webp" alt="Bandera de Japon" />
                 <p>Japon</p>
             </div>
             <div class="flag-item enabled" id="flag-mexico">
-                <img src="/assets/images/mexico.jpg" alt="Bandera de MÃ©xico" />
+                <img src="/assets/images/mexico.jpg" alt="Bandera de Mexico" />
                 <p>Mexico</p>
             </div>
             <div class="flag-item enabled" id="flag-eua">
@@ -123,47 +125,47 @@
                 <p>Iran</p>
             </div>
             <div class="flag-item enabled" id="flag-surcorea">
-                <img src="/assets/images/corea.avif" alt="Bandera de MÃ©xico" />
+                <img src="/assets/images/corea.avif" alt="Bandera de surcorea" />
                 <p>Sur Corea</p>
             </div>
             <div class="flag-item enabled" id="flag-australia">
-                <img src="/assets/images/australia.jpg" alt="Bandera de MÃ©xico" />
+                <img src="/assets/images/australia.jpg" alt="Bandera de australia" />
                 <p>Australia</p>
             </div>
-            <div class="flag-item enabled" id="flag-usbekistan">
-                <img src="/assets/images/uzbekistan.jpg" alt="Bandera de MÃ©xico" />
+            <div class="flag-item enabled" id="flag-uzbekistan">
+                <img src="/assets/images/uzbekistan.jpg" alt="Bandera de uzbekistan" />
                 <p>Uzbekistan</p>
             </div>
             <div class="flag-item enabled" id="flag-jordania">
-                <img src="/assets/images/jordania.avif" alt="Bandera de MÃ©xico" />
+                <img src="/assets/images/jordania.avif" alt="Bandera de jordania" />
                 <p>Jordania</p>
             </div>
             <div class="flag-item enabled" id="flag-argentina">
-                <img src="/assets/images/argentina.jpg" alt="Bandera de MÃ©xico" />
+                <img src="/assets/images/argentina.jpg" alt="Bandera de argentina" />
                 <p>Argentina</p>
             </div>
             <div class="flag-item enabled" id="flag-Brasil">
-                <img src="/assets/images/brasil.webp" alt="Bandera de MÃ©xico" />
+                <img src="/assets/images/brasil.webp" alt="Bandera de brasil" />
                 <p>Brazil</p>
             </div>
             <div class="flag-item enabled" id="flag-ecuador">
-                <img src="/assets/images/ecuador.jpg" alt="Bandera de MÃ©xico" />
+                <img src="/assets/images/ecuador.jpg" alt="Bandera de ecuador" />
                 <p>Ecuador</p>
             </div>
             <div class="flag-item enabled" id="flag-nuevaZelanda">
-                <img src="/assets/images/nuevaZelanda.jpg" alt="Bandera de MÃ©xico" />
+                <img src="/assets/images/nuevaZelanda.jpg" alt="Bandera de nuevaZelanda" />
                 <p>Zelanda</p>
             </div>
         </div>
         <p></p>
         <div class="menu">
-            <button class="btn" id="homeBtn">
+            <button title="inicio" class="btn" id="homeBtn">
                 <i class="fa-solid fa-house"></i>
             </button>
-            <button class="btn" id="scannerButton">
+            <button title="scanner" class="btn" id="scannerButton">
                 <i class="fa-solid fa-expand"></i>
             </button>
-            <button class="btn" id="helpButton">
+            <button title="ayuda" class="btn" id="helpButton">
                 <i class="fa-solid fa-question"></i>
             </button>
         </div>
